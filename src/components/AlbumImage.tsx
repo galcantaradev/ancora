@@ -1,13 +1,29 @@
 import styled from 'styled-components';
 
-export const AlbumImage = styled.img`
+interface AlbumImageProps {
+  alt?: string;
+  src: string;
+}
+
+const ImageContainer = styled.div`
   background-color: #000;
-  background: url('https://upload.wikimedia.org/wikipedia/pt/6/63/Astroworld_Travis.jpg');
-  background-size: cover;
   border-radius: 50%;
-  display: flex;
   height: 8rem;
-  object-fit: contain;
-  position: relative;
+`;
+
+const Image = styled.img`
+  background-size: cover;
+  border-color: #000;
+  border-radius: 50%;
+  border-size: 1px;
+  border-style: solid;
   width: 8rem;
 `;
+
+export const AlbumImage = ({ src, alt }: AlbumImageProps) => {
+  return (
+    <ImageContainer>
+      <Image src={src} alt={alt || 'Album'} />
+    </ImageContainer>
+  );
+};
