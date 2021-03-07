@@ -1,2 +1,4 @@
 export * from './AlbumImage';
-export * from './Player';
+export * from './Header';
+export * from './TimeBar';
+export * from './Track';
