@@ -1,3 +1,5 @@
+import './icons/Library';
+
 import styled from 'styled-components';
 
 import { Header, Track } from './components';

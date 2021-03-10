@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { msToMinutes } from '../utils';
 
 interface TimeBarProps {
@@ -13,12 +14,11 @@ const TimeBarContainer = styled.div`
 
 const MinuteTracker = styled.span`
   font-size: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 1rem;
 `;
 
-const TimerBar = styled.meter`
-  width: 15rem;
+const Meter = styled.meter`
+  width: 14rem;
 `;
 
 export const TimeBar = ({ timeInMs }: TimeBarProps) => {
@@ -42,8 +42,10 @@ export const TimeBar = ({ timeInMs }: TimeBarProps) => {
   return (
     <TimeBarContainer>
       <MinuteTracker>{msToMinutes(currentTime)}</MinuteTracker>
-      <TimerBar min={0} max={maxTime.current} value={currentTime} />
-      <MinuteTracker>{msToMinutes(maxTime.current)}</MinuteTracker>
+      <Meter min={0} max={maxTime.current} value={currentTime} />
+      <MinuteTracker>
+        {msToMinutes(maxTime.current - currentTime)}
+      </MinuteTracker>
     </TimeBarContainer>
   );
 };
