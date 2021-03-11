@@ -1,11 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { TrackContext } from '../providers';
 import { msToMinutes } from '../utils';
-
-interface TimeBarProps {
-  timeInMs: number;
-}
 
 const TimeBarContainer = styled.div`
   align-items: center;
@@ -21,14 +18,19 @@ const Meter = styled.meter`
   width: 14rem;
 `;
 
-export const TimeBar = ({ timeInMs }: TimeBarProps) => {
-  const maxTime = useRef(timeInMs);
+export const TimeBar = () => {
+  const { track, isPlaying } = useContext(TrackContext);
+  const maxTime = useRef(track.time);
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    let intervalId: any;
+    setCurrentTime(0);
+  }, [track]);
 
-    if (currentTime < maxTime.current) {
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    if (isPlaying && currentTime < maxTime.current) {
       intervalId = setInterval(() => {
         setCurrentTime(prevTime => prevTime + 1000);
       }, 1000);
@@ -37,7 +39,7 @@ export const TimeBar = ({ timeInMs }: TimeBarProps) => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [currentTime]);
+  }, [currentTime, isPlaying]);
 
   return (
     <TimeBarContainer>

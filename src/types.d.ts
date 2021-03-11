@@ -1,7 +1,9 @@
 interface Track {
   album: string;
   artist: string;
-  music: string;
+  name: string;
   time: number;
   image: string;
 }
+
+type Direction = 'previous' | 'next';

@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { TrackContext } from '../providers';
 
 const MediaContainer = styled.div`
   align-items: center;
@@ -16,13 +17,16 @@ const MediaContainer = styled.div`
 `;
 
 export const Media = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  const handlePlayPause = () => setIsPlaying(isPlaying => !isPlaying);
+  const { isPlaying, handlePlayPause, handleQueue } = useContext(TrackContext);
 
   return (
     <MediaContainer>
-      <FontAwesomeIcon icon="arrow-left" color="white" size="lg" />
+      <FontAwesomeIcon
+        icon="arrow-left"
+        color="white"
+        size="lg"
+        onClick={() => handleQueue('previous')}
+      />
       {!isPlaying && (
         <FontAwesomeIcon
           icon="play-circle"
@@ -39,7 +43,12 @@ export const Media = () => {
           onClick={handlePlayPause}
         />
       )}
-      <FontAwesomeIcon icon="arrow-right" color="white" size="lg" />
+      <FontAwesomeIcon
+        icon="arrow-right"
+        color="white"
+        size="lg"
+        onClick={() => handleQueue('next')}
+      />
     </MediaContainer>
   );
 };

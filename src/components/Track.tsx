@@ -1,19 +1,18 @@
+import { useContext } from 'react';
+
 import { AlbumImage } from './AlbumImage';
 import { Media } from './Media';
 import { TimeBar } from './TimeBar';
+import { TrackContext } from '../providers';
 
-interface TrackProps {
-  track: Track;
-}
-
-export const Track = ({ track }: TrackProps) => {
-  const { image, music, time } = track;
+export const Track = () => {
+  const { track } = useContext(TrackContext);
 
   return (
     <>
-      <AlbumImage src={image} />
-      <h2>{music}</h2>
-      <TimeBar timeInMs={time} />
+      <AlbumImage src={track.image} />
+      <h2>{track.name}</h2>
+      <TimeBar />
       <Media />
     </>
   );
