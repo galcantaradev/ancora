@@ -2,10 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
-import { Volume } from './Volume';
 import { TrackContext } from '../providers';
 
-const Control = styled.div`
+const Container = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-around;
@@ -22,37 +21,35 @@ export const Media = () => {
   const { isPlaying, handlePlayPause, handleQueue } = useContext(TrackContext);
 
   return (
-    <>
-      <Control>
+    <Container>
+      <FontAwesomeIcon
+        icon="arrow-left"
+        color="white"
+        size="lg"
+        onClick={() => handleQueue('previous')}
+      />
+      {!isPlaying && (
         <FontAwesomeIcon
-          icon="arrow-left"
+          icon="play-circle"
           color="white"
-          size="lg"
-          onClick={() => handleQueue('previous')}
+          size="3x"
+          onClick={handlePlayPause}
         />
-        {!isPlaying && (
-          <FontAwesomeIcon
-            icon="play-circle"
-            color="white"
-            size="3x"
-            onClick={handlePlayPause}
-          />
-        )}
-        {isPlaying && (
-          <FontAwesomeIcon
-            icon="pause-circle"
-            color="white"
-            size="3x"
-            onClick={handlePlayPause}
-          />
-        )}
+      )}
+      {isPlaying && (
         <FontAwesomeIcon
-          icon="arrow-right"
+          icon="pause-circle"
           color="white"
-          size="lg"
-          onClick={() => handleQueue('next')}
+          size="3x"
+          onClick={handlePlayPause}
         />
-      </Control>
-    </>
+      )}
+      <FontAwesomeIcon
+        icon="arrow-right"
+        color="white"
+        size="lg"
+        onClick={() => handleQueue('next')}
+      />
+    </Container>
   );
 };
