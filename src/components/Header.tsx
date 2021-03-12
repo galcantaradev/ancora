@@ -1,16 +1,24 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { TrackContext } from '../providers';
+import { Paragraph } from './Paragraph';
 
-const HeaderContainer = styled.header`
+const Container = styled.header`
+  align-items: center;
   background-color: #000;
   border-radius: 5px 5px 0 0;
   display: flex;
   height: 3rem;
-  position: relative;
-  width: 20rem;
-  align-items: center;
   justify-content: center;
+  width: inherit;
 `;
 
 export const Header = () => {
-  return <HeaderContainer>Playing Now</HeaderContainer>;
+  const { track } = useContext(TrackContext);
+
+  return (
+    <Container>
+      <Paragraph>{track.artist}</Paragraph>
+    </Container>
+  );
 };

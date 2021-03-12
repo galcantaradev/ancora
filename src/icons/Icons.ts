@@ -2,5 +2,7 @@ export {
   faArrowRight,
   faArrowLeft,
   faPlayCircle,
-  faPauseCircle
+  faPauseCircle,
+  faVolumeOff,
+  faVolumeUp
 } from '@fortawesome/free-solid-svg-icons';
