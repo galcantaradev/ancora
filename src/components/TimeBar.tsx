@@ -21,10 +21,6 @@ export const TimeBar = () => {
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    setCurrentTime(0);
-  }, [track]);
-
-  useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
     if (isPlaying && currentTime < track.time) {

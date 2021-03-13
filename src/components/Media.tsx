@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 export const Media = () => {
-  const { isPlaying, handlePlayPause, handleQueue } = useContext(TrackContext);
+  const { isPlaying, togglePlayPause, handleQueue } = useContext(TrackContext);
 
   return (
     <Container>
@@ -33,7 +33,7 @@ export const Media = () => {
           icon="play-circle"
           color="white"
           size="3x"
-          onClick={handlePlayPause}
+          onClick={togglePlayPause}
         />
       )}
       {isPlaying && (
@@ -41,7 +41,7 @@ export const Media = () => {
           icon="pause-circle"
           color="white"
           size="3x"
-          onClick={handlePlayPause}
+          onClick={togglePlayPause}
         />
       )}
       <FontAwesomeIcon

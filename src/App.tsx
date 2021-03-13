@@ -1,10 +1,12 @@
 import './icons/Library';
 
 import styled from 'styled-components';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { Header, Track } from './components';
-import { GlobalStyle } from './theme';
+import { Header } from './components';
+import { Queue, Track } from './pages';
 import { TrackProvider } from './providers';
+import { GlobalStyle } from './theme';
 
 const Container = styled.div`
   align-items: center;
@@ -19,15 +21,18 @@ const Container = styled.div`
 
 const App = () => {
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyle />
       <Container>
         <TrackProvider>
           <Header />
-          <Track />
+          <Switch>
+            <Route path="/" component={Queue} exact />
+            <Route path="/:track" component={Track} />
+          </Switch>
         </TrackProvider>
       </Container>
-    </>
+    </BrowserRouter>
   );
 };
 

@@ -4,5 +4,7 @@ export {
   faPlayCircle,
   faPauseCircle,
   faVolumeOff,
-  faVolumeUp
+  faVolumeUp,
+  faChevronLeft,
+  faSearch
 } from '@fortawesome/free-solid-svg-icons';

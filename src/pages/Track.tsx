@@ -1,11 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 
-import { AlbumImage } from './AlbumImage';
-import { Media } from './Media';
-import { TimeBar } from './TimeBar';
-import { Title } from './Title';
-import { Paragraph } from './Paragraph';
+import { AlbumImage, Media, TimeBar, Title, Paragraph } from '../components';
 import { TrackContext } from '../providers';
 
 const Container = styled.div`
