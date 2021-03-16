@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { initialTrack, initialQueue } from '../utils';
 
@@ -6,10 +6,14 @@ interface TrackContextProps {
   track: Track;
   queue: Track[];
   isPlaying: boolean;
+  currentTime: number;
   setTrack: (initialState: Track | (() => Track)) => void;
   setIsPlaying: (initialState: boolean | (() => boolean)) => void;
   togglePlayPause: () => void;
   handleQueue: (direction: Direction) => void;
+  setCurrentTime: (
+    initialState: number | (() => number) | ((initialState: number) => number)
+  ) => void;
 }
 
 interface TrackProviderProps {
@@ -23,13 +27,30 @@ export const TrackContext = createContext<TrackContextProps>({
   setTrack: () => {},
   setIsPlaying: () => {},
   togglePlayPause: () => {},
-  handleQueue: () => {}
+  handleQueue: () => {},
+  currentTime: 0,
+  setCurrentTime: () => {}
 });
 
 export const TrackProvider = ({ children }: TrackProviderProps) => {
   const [queue] = useState(initialQueue);
   const [track, setTrack] = useState(initialQueue[0]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    if (isPlaying && currentTime < track.time) {
+      intervalId = setInterval(() => {
+        setCurrentTime(prevTime => prevTime + 1000);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [track.time, currentTime, isPlaying]);
 
   const togglePlayPause = (): void => setIsPlaying(isPlaying => !isPlaying);
 
@@ -60,10 +81,12 @@ export const TrackProvider = ({ children }: TrackProviderProps) => {
         track,
         queue,
         isPlaying,
+        currentTime,
         setTrack,
         togglePlayPause,
         handleQueue,
-        setIsPlaying
+        setIsPlaying,
+        setCurrentTime
       }}
     >
       {children}

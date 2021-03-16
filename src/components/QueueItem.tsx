@@ -28,10 +28,16 @@ const Container = styled.div`
 
 export const QueueItem = ({ item }: QueueItemProps) => {
   const history = useHistory();
-  const { setTrack, setIsPlaying } = useContext(TrackContext);
+  const { track, setTrack, setIsPlaying, setCurrentTime } = useContext(
+    TrackContext
+  );
 
-  const changeTrack = (track: Track): void => {
-    setTrack(track);
+  const changeTrack = (nextTrack: Track): void => {
+    if (nextTrack.name !== track.name) {
+      setTrack(nextTrack);
+      setCurrentTime(0);
+    }
+
     setIsPlaying(true);
     history.push(`/${track.name}`);
   };

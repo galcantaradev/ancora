@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { TrackContext } from '../providers';
 import { Paragraph } from './Paragraph';
 
 const Container = styled.header`
@@ -25,14 +23,11 @@ const Container = styled.header`
 
 export const Header = () => {
   const history = useHistory();
-  const { isPlaying, track } = useContext(TrackContext);
 
   return (
     <Container>
       <FontAwesomeIcon icon="chevron-left" onClick={history.goBack} />
-      <Paragraph>
-        {isPlaying && history.location.pathname === '/' ? 'Home' : track.name}
-      </Paragraph>
+      <Paragraph>Playa</Paragraph>
       <FontAwesomeIcon icon="search" />
     </Container>
   );

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { Meter } from './Meter';
@@ -17,22 +17,7 @@ const Minute = styled.span`
 `;
 
 export const TimeBar = () => {
-  const { track, isPlaying } = useContext(TrackContext);
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-
-    if (isPlaying && currentTime < track.time) {
-      intervalId = setInterval(() => {
-        setCurrentTime(prevTime => prevTime + 1000);
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [track.time, currentTime, isPlaying]);
+  const { track, currentTime } = useContext(TrackContext);
 
   return (
     <Container>
