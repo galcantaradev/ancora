@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { Header } from './components';
-import { Queue, Track } from './pages';
+import { Home, Track } from './pages';
 import { TrackProvider } from './providers';
 import { GlobalStyle } from './theme';
 
@@ -27,7 +27,7 @@ const App = () => {
         <TrackProvider>
           <Header />
           <Switch>
-            <Route path="/" component={Queue} exact />
+            <Route path="/" component={Home} exact />
             <Route path="/:track" component={Track} />
           </Switch>
         </TrackProvider>

@@ -1,2 +1,2 @@
-export * from './Queue';
+export * from './Home';
 export * from './Track';

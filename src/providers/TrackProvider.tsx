@@ -1,16 +1,18 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-import { initialTrack, initialQueue } from '../utils';
+import { initialTrack, initialTracks } from '../utils';
 
 interface TrackContextProps {
+  search: string;
+  setSearch: (initialState: string) => void;
   track: Track;
-  queue: Track[];
+  tracks: Track[];
   isPlaying: boolean;
   currentTime: number;
   setTrack: (initialState: Track | (() => Track)) => void;
   setIsPlaying: (initialState: boolean | (() => boolean)) => void;
   togglePlayPause: () => void;
-  handleQueue: (direction: Direction) => void;
+  handleTrack: (direction: Direction) => void;
   setCurrentTime: (
     initialState: number | (() => number) | ((initialState: number) => number)
   ) => void;
@@ -22,21 +24,41 @@ interface TrackProviderProps {
 
 export const TrackContext = createContext<TrackContextProps>({
   track: initialTrack,
-  queue: [],
+  search: '',
+  setSearch: () => {},
+  tracks: [],
   isPlaying: false,
   setTrack: () => {},
   setIsPlaying: () => {},
   togglePlayPause: () => {},
-  handleQueue: () => {},
+  handleTrack: () => {},
   currentTime: 0,
   setCurrentTime: () => {}
 });
 
 export const TrackProvider = ({ children }: TrackProviderProps) => {
-  const [queue] = useState(initialQueue);
-  const [track, setTrack] = useState(initialQueue[0]);
+  const [tracks] = useState(initialTracks);
+  const [search, setSearch] = useState('');
+  const [filteredTracks, setfilteredTracks] = useState(tracks);
+  const [track, setTrack] = useState(tracks[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    const filtered = tracks.filter(q => {
+      const s = search.toLowerCase();
+
+      return (
+        q.album.toLowerCase().includes(s) ||
+        q.artist.toLowerCase().includes(s) ||
+        q.name.toLowerCase().includes(s)
+      );
+    });
+
+    setfilteredTracks(filtered);
+
+    // eslint-disable-next-line
+  }, [search]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -47,31 +69,39 @@ export const TrackProvider = ({ children }: TrackProviderProps) => {
       }, 1000);
     }
 
+    if (currentTime >= track.time) {
+      handleTrack('next');
+    }
+
     return () => {
       clearInterval(intervalId);
     };
+
+    // eslint-disable-next-line
   }, [track.time, currentTime, isPlaying]);
 
   const togglePlayPause = (): void => setIsPlaying(isPlaying => !isPlaying);
 
-  const handleQueue = (direction: Direction): void => {
+  const handleTrack = (direction: Direction): void => {
     setTrack(currentTrack => {
-      const index = queue.indexOf(currentTrack);
+      const index = tracks.indexOf(currentTrack);
       const cantBack = index === 0 && direction === 'previous';
-      const cantGo = index === queue.length - 1 && direction === 'next';
-      const cantHandleQueue = index < 0 || cantBack || cantGo;
+      const cantGo = index === tracks.length - 1 && direction === 'next';
+      const canthandleTrack = index < 0 || cantBack || cantGo;
 
-      if (cantHandleQueue) {
+      setCurrentTime(0);
+
+      if (canthandleTrack) {
         setIsPlaying(false);
-        return currentTrack;
+        return tracks[0];
       }
 
       if (direction === 'previous') {
-        const nextTrack = queue[index - 1];
+        const nextTrack = tracks[index - 1];
         return nextTrack;
       }
 
-      return queue[index + 1];
+      return tracks[index + 1];
     });
   };
 
@@ -79,12 +109,14 @@ export const TrackProvider = ({ children }: TrackProviderProps) => {
     <TrackContext.Provider
       value={{
         track,
-        queue,
+        search,
+        setSearch,
+        tracks: filteredTracks,
         isPlaying,
         currentTime,
         setTrack,
         togglePlayPause,
-        handleQueue,
+        handleTrack,
         setIsPlaying,
         setCurrentTime
       }}

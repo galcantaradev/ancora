@@ -1,4 +1,5 @@
-import Image from './assets/Astroworld_Travis.jpg';
+import Astroworld from './assets/Astroworld_Travis.jpg';
+import HIGHEST_IN_THE_ROOM from './assets/HIGHEST_IN_THE_ROOM_Travis.jpg';
 
 // converters
 
@@ -34,15 +35,23 @@ export const astrothunder: Track = {
   album: 'Astroworld',
   name: 'ASTROTHUNDER',
   artist: 'Travis Scott',
-  image: Image,
+  image: Astroworld,
   time: minutesToMs(2, 23)
+};
+
+export const highestintheroom: Track = {
+  album: 'JACKBOYS',
+  name: 'HIGHEST IN THE ROOM',
+  artist: 'Travis Scott',
+  image: HIGHEST_IN_THE_ROOM,
+  time: minutesToMs(2, 55)
 };
 
 export const sickomode: Track = {
   album: 'Astroworld',
   name: 'SICKO MODE',
   artist: 'Travis Scott',
-  image: Image,
+  image: Astroworld,
   time: minutesToMs(5, 12)
 };
 
@@ -50,8 +59,13 @@ export const stargazing: Track = {
   album: 'Astroworld',
   name: 'STARGAZING',
   artist: 'Travis Scott',
-  image: Image,
+  image: Astroworld,
   time: minutesToMs(4, 30)
 };
 
-export const initialQueue = [astrothunder, sickomode, stargazing];
+export const initialTracks = [
+  astrothunder,
+  highestintheroom,
+  sickomode,
+  stargazing
+];

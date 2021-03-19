@@ -2,14 +2,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+
 import { TrackContext } from '../providers';
 
-interface QueueItemProps {
+interface TrackItemProps {
   item: Track;
 }
 
 const Container = styled.div`
-  background-color: #000;
+  background-color: #222;
+  border-color: #000;
+  border-style: solid;
+  border-width: 1px;
   padding: 1rem;
   height: 1rem;
   border-radius: 0.5rem;
@@ -26,7 +30,7 @@ const Container = styled.div`
   }
 `;
 
-export const QueueItem = ({ item }: QueueItemProps) => {
+export const TrackItem = ({ item }: TrackItemProps) => {
   const history = useHistory();
   const { track, setTrack, setIsPlaying, setCurrentTime } = useContext(
     TrackContext

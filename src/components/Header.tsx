@@ -1,34 +1,51 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { TrackContext } from '../providers';
+
 import { Paragraph } from './Paragraph';
 
 const Container = styled.header`
-  align-items: center;
   background-color: #000;
   border-radius: 5px 5px 0 0;
-  display: flex;
   height: 3rem;
-  justify-content: space-between;
   width: inherit;
+  position: sticky;
+  text-align: center;
+
+  p {
+    display: inline-block;
+    margin-top: 0.75rem;
+  }
 
   svg {
-    padding: 0 0.5rem 0 0.5rem;
+    position: absolute;
+    margin-top: 0.75rem;
 
-    :hover {
-      cursor: pointer;
+    :first-child {
+      left: 0.5rem;
     }
   }
 `;
 
 export const Header = () => {
   const history = useHistory();
+  const { track } = useContext(TrackContext);
+  const [isHome, setIsHome] = useState(true);
+
+  useEffect(() => {
+    history.listen(location => {
+      setIsHome(location.pathname === '/');
+    });
+  }, [history]);
 
   return (
     <Container>
-      <FontAwesomeIcon icon="chevron-left" onClick={history.goBack} />
-      <Paragraph>Playa</Paragraph>
-      <FontAwesomeIcon icon="search" />
+      {!isHome && (
+        <FontAwesomeIcon icon="chevron-left" onClick={history.goBack} />
+      )}
+      <Paragraph>{isHome ? 'Playa' : track.name}</Paragraph>
     </Container>
   );
 };

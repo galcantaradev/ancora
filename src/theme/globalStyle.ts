@@ -4,6 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
+    font-family: Chango, sans-serif;
   }
 
   body {
@@ -17,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100vw;
   }
 
-  a {
+  a, svg {
     :hover {
       cursor: pointer;
     }
